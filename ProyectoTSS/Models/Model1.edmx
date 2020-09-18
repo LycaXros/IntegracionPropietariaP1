@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ISO810P1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DetalleImp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="EncabezadoId" Type="int" Nullable="false" />
+          <Property Name="TDocumento" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Documento" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="NSS" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Salario" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="SalarioISR" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="NumeroCuenta" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EncabezadoImp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Moneda" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Fecha_Transmision" Type="date" Nullable="false" />
+          <Property Name="CodBanco" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="RNC_Empresa" Type="nvarchar" MaxLength="11" Nullable="false" />
+          <Property Name="MesPago" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Moneda">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_DetalleImp_EncabezadoImp">
+          <End Role="EncabezadoImp" Type="Self.EncabezadoImp" Multiplicity="1" />
+          <End Role="DetalleImp" Type="Self.DetalleImp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EncabezadoImp">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleImp">
+              <PropertyRef Name="EncabezadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Moneda_Encabezado">
+          <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
+          <End Role="EncabezadoImp" Type="Self.EncabezadoImp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moneda">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="EncabezadoImp">
+              <PropertyRef Name="Moneda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ISO810P1ModelStoreContainer">
+          <EntitySet Name="DetalleImp" EntityType="Self.DetalleImp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EncabezadoImp" EntityType="Self.EncabezadoImp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Moneda" EntityType="Self.Moneda" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DetalleImp_EncabezadoImp" Association="Self.FK_DetalleImp_EncabezadoImp">
+            <End Role="EncabezadoImp" EntitySet="EncabezadoImp" />
+            <End Role="DetalleImp" EntitySet="DetalleImp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Moneda_Encabezado" Association="Self.FK_Moneda_Encabezado">
+            <End Role="Moneda" EntitySet="Moneda" />
+            <End Role="EncabezadoImp" EntitySet="EncabezadoImp" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ISO810P1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DetalleImp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="EncabezadoId" Type="Int32" Nullable="false" />
+          <Property Name="TDocumento" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Documento" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NSS" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Salario" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="SalarioISR" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="NumeroCuenta" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="EncabezadoImp" Relationship="Self.FK_DetalleImp_EncabezadoImp" FromRole="DetalleImp" ToRole="EncabezadoImp" />
+        </EntityType>
+        <EntityType Name="EncabezadoImp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Moneda" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fecha_Transmision" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CodBanco" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RNC_Empresa" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MesPago" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DetalleImp" Relationship="Self.FK_DetalleImp_EncabezadoImp" FromRole="EncabezadoImp" ToRole="DetalleImp" />
+          <NavigationProperty Name="MonedaEntity" Relationship="Self.FK_Moneda_Encabezado" FromRole="EncabezadoImp" ToRole="Moneda" />
+        </EntityType>
+        <EntityType Name="Moneda">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="EncabezadoImp" Relationship="Self.FK_Moneda_Encabezado" FromRole="Moneda" ToRole="EncabezadoImp" />
+        </EntityType>
+        <Association Name="FK_DetalleImp_EncabezadoImp">
+          <End Role="EncabezadoImp" Type="Self.EncabezadoImp" Multiplicity="1" />
+          <End Role="DetalleImp" Type="Self.DetalleImp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EncabezadoImp">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleImp">
+              <PropertyRef Name="EncabezadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Moneda_Encabezado">
+          <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
+          <End Role="EncabezadoImp" Type="Self.EncabezadoImp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moneda">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="EncabezadoImp">
+              <PropertyRef Name="Moneda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ISO810P1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DetalleImp" EntityType="Self.DetalleImp" />
+          <EntitySet Name="EncabezadoImp" EntityType="Self.EncabezadoImp" />
+          <EntitySet Name="Moneda" EntityType="Self.Moneda" />
+          <AssociationSet Name="FK_DetalleImp_EncabezadoImp" Association="Self.FK_DetalleImp_EncabezadoImp">
+            <End Role="EncabezadoImp" EntitySet="EncabezadoImp" />
+            <End Role="DetalleImp" EntitySet="DetalleImp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Moneda_Encabezado" Association="Self.FK_Moneda_Encabezado">
+            <End Role="Moneda" EntitySet="Moneda" />
+            <End Role="EncabezadoImp" EntitySet="EncabezadoImp" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ISO810P1ModelStoreContainer" CdmEntityContainer="ISO810P1Entities">
+          <EntitySetMapping Name="DetalleImp">
+            <EntityTypeMapping TypeName="ISO810P1Model.DetalleImp">
+              <MappingFragment StoreEntitySet="DetalleImp">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EncabezadoId" ColumnName="EncabezadoId" />
+                <ScalarProperty Name="TDocumento" ColumnName="TDocumento" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+                <ScalarProperty Name="NSS" ColumnName="NSS" />
+                <ScalarProperty Name="Salario" ColumnName="Salario" />
+                <ScalarProperty Name="SalarioISR" ColumnName="SalarioISR" />
+                <ScalarProperty Name="NumeroCuenta" ColumnName="NumeroCuenta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EncabezadoImp">
+            <EntityTypeMapping TypeName="ISO810P1Model.EncabezadoImp">
+              <MappingFragment StoreEntitySet="EncabezadoImp">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Moneda" ColumnName="Moneda" />
+                <ScalarProperty Name="Fecha_Transmision" ColumnName="Fecha_Transmision" />
+                <ScalarProperty Name="CodBanco" ColumnName="CodBanco" />
+                <ScalarProperty Name="RNC_Empresa" ColumnName="RNC_Empresa" />
+                <ScalarProperty Name="MesPago" ColumnName="MesPago" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Moneda">
+            <EntityTypeMapping TypeName="ISO810P1Model.Moneda">
+              <MappingFragment StoreEntitySet="Moneda">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
